@@ -30,11 +30,58 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        MoveThePlayer();
+        //MoveThePlayer();
 
-        chararacterController.Move(player_Move);
+        //chararacterController.Move(player_Move);
+
+        CalculateHeight();
+        CheckIfFinishedMovement();
     }
 
+
+    bool IsGrounded()
+    {
+        //if(collisionFlags == CollisionFlags.CollidedBelow)
+        //{
+        //    return true;
+
+        //    //code here will not be executed when return statement is executed
+
+        //}
+
+        //return false;
+
+        return collisionFlags == CollisionFlags.CollidedBelow ? true : false;
+    }
+
+
+    void CalculateHeight()
+    {
+        if(IsGrounded())
+        {
+            height = 0.0f;
+        }else
+        {
+            height -= gravity * Time.deltaTime;
+        }
+    }
+
+    void CheckIfFinishedMovement()
+    {
+        if(!finished_Movement)
+        {
+            if(!anim.IsInTransition(0) && !anim.GetCurrentAnimatorStateInfo(0).IsName("Stand") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
+            {
+                finished_Movement = true;
+            }
+        }
+        else
+        {
+            MoveThePlayer();
+            player_Move.y = height * Time.deltaTime;
+            collisionFlags = chararacterController.Move(player_Move);
+        }
+    }
 
     void MoveThePlayer()
     {
