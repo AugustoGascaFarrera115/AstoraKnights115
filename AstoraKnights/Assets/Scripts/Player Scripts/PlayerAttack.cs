@@ -47,7 +47,7 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
-    private void CheckInput()
+    public void CheckInput()
     {
         if(animator.GetInteger("Atk") == 0)
         {
