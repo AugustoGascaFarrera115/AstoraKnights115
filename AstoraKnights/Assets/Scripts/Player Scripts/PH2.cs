@@ -2,24 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PH2 : MonoBehaviour
 {
 
     public float health = 100f;
 
-    public bool isShield;
+    bool isShielded;
 
-    Animator anim,otheranim;
-
-
-    GameObject animenemy;
+    Animator anim;
 
     // Start is called before the first frame update
     void Awake()
     {
         anim = GetComponent<Animator>();
-        animenemy = GameObject.FindGameObjectWithTag("Enemy");
-        otheranim = animenemy.GetComponent<Animator>();
     }
 
 
@@ -27,11 +22,11 @@ public class PlayerHealth : MonoBehaviour
     {
         get
         {
-            return isShield;
+            return isShielded = true;
         }
         set
         {
-            isShield = value;
+            isShielded = value;
         }
     }
 
@@ -43,31 +38,28 @@ public class PlayerHealth : MonoBehaviour
         
     }
 
-
     public void TakeDamage(float damage)
     {
-        
-
-        if(!isShield)
+        if(!isShielded)
         {
             health -= damage;
 
-            print("Current Player's Health : " + health);
+            print("Current Charactewr Health is: " + health);
 
             if(health <= 0)
             {
-                //otheranim.SetBool("Walk", true);
                 anim.SetBool("Death", true);
 
-                
-
-                if(!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if(!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95)
                 {
                     Destroy(this.gameObject, 1f);
-                    
                 }
 
+
             }
+
+
+
         }
     }
 

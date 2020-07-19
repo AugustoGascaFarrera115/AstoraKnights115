@@ -26,6 +26,13 @@ public class EnemyHealth : MonoBehaviour
         if(enemyHealth <= 0)
         {
             anim.SetBool("Death", true);
+
+            if(!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))
+            {
+                Destroy(this.gameObject, 0.5f);
+            }
+
+
         }
 
     }

@@ -43,76 +43,82 @@ public class EnemyControllerAW : MonoBehaviour
 
     void EnemyAIBehaviour()
     {
-        float distanceBetweenEnemyandPlayer = Vector3.Distance(transform.position, playerTarget.position);
 
-        if(distanceBetweenEnemyandPlayer > walkDistance)
+
+        if(playerTarget != null)
         {
-            if(navMesh.remainingDistance <= 0.5f)
+            float distanceBetweenEnemyandPlayer = Vector3.Distance(transform.position, playerTarget.position);
+
+            if (distanceBetweenEnemyandPlayer > walkDistance)
             {
-                navMesh.isStopped = false;
-
-                anim.SetBool("Walk", true);
-                anim.SetBool("Run", false);
-                anim.SetInteger("Atk", 0);
-               
-
-                int randomPosition = Random.Range(0, 4);
-                nextDestination = pointsList[randomPosition].position;
-                navMesh.SetDestination(nextDestination);
-
-
-                if(randomPosition == pointsList.Length - 1)
+                if (navMesh.remainingDistance <= 0.5f)
                 {
-                    randomPosition = 0;
+                    navMesh.isStopped = false;
+
+                    anim.SetBool("Walk", true);
+                    anim.SetBool("Run", false);
+                    anim.SetInteger("Atk", 0);
+
+
+                    int randomPosition = Random.Range(0, 4);
+                    nextDestination = pointsList[randomPosition].position;
+                    navMesh.SetDestination(nextDestination);
+
+
+                    if (randomPosition == pointsList.Length - 1)
+                    {
+                        randomPosition = 0;
+                    }
+                    else
+                    {
+                        randomPosition++;
+                    }
+
+
                 }
-                else
-                {
-                    randomPosition++;
-                }
-
-
-            }
-        }
-        else
-        {
-            if (distanceBetweenEnemyandPlayer > attackDistance)
-            {
-                navMesh.isStopped = false;
-
-                anim.SetBool("Walk", false);
-                anim.SetBool("Run", true);
-                anim.SetInteger("Atk", 0);
-
-                navMesh.SetDestination(playerTarget.position);
-
-
             }
             else
             {
-                navMesh.isStopped = true;
-
-                anim.SetBool("Walk", false);
-                anim.SetBool("Run", false);
-
-                Vector3 targetPosition = new Vector3(playerTarget.position.x, transform.position.y, playerTarget.position.z);
-
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPosition - transform.position), 5f * Time.deltaTime);
-
-
-                if(currentAttackTime >= waitAttackTime)
+                if (distanceBetweenEnemyandPlayer > attackDistance)
                 {
-                    int atkRange = Random.Range(1, 3);
-                    anim.SetInteger("Atk", atkRange);
-                    currentAttackTime = 0f;
+                    navMesh.isStopped = false;
+
+                    anim.SetBool("Walk", false);
+                    anim.SetBool("Run", true);
+                    anim.SetInteger("Atk", 0);
+
+                    navMesh.SetDestination(playerTarget.position);
+
+
                 }
                 else
                 {
-                    anim.SetInteger("Atk", 0);
-                    currentAttackTime++;
+                    navMesh.isStopped = true;
+
+                    anim.SetBool("Walk", false);
+                    anim.SetBool("Run", false);
+
+                    Vector3 targetPosition = new Vector3(playerTarget.position.x, transform.position.y, playerTarget.position.z);
+
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPosition - transform.position), 5f * Time.deltaTime);
+
+
+                    if (currentAttackTime >= waitAttackTime)
+                    {
+                        int atkRange = Random.Range(1, 3);
+                        anim.SetInteger("Atk", atkRange);
+                        currentAttackTime = 0f;
+                    }
+                    else
+                    {
+                        anim.SetInteger("Atk", 0);
+                        currentAttackTime++;
+                    }
+
+
                 }
-
-
             }
+
         }
 
 

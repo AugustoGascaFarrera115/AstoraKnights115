@@ -24,23 +24,29 @@ public class FollowCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //target_Height = transform.position.y + follow_height;
-        target_Height = player.position.y + follow_height;
+        if(player != null)
+        {
 
-        current_Rotation = transform.eulerAngles.y;
+            //target_Height = transform.position.y + follow_height;
+            target_Height = player.position.y + follow_height;
 
-        current_Height = Mathf.Lerp(transform.position.y,target_Height,0.9f * Time.deltaTime);
+            current_Rotation = transform.eulerAngles.y;
+
+            current_Height = Mathf.Lerp(transform.position.y, target_Height, 0.9f * Time.deltaTime);
 
 
-        Quaternion euler = Quaternion.Euler(0f, current_Rotation, 0f);
+            Quaternion euler = Quaternion.Euler(0f, current_Rotation, 0f);
 
-        Vector3 target_position = player.position - (euler * Vector3.forward) * follow_distance;
+            Vector3 target_position = player.position - (euler * Vector3.forward) * follow_distance;
 
-        target_position.y = current_Height;
+            target_position.y = current_Height;
 
-        transform.position = target_position;
+            transform.position = target_position;
 
-        transform.LookAt(player);
+            transform.LookAt(player);
+        }
+
+
 
     }
 }
