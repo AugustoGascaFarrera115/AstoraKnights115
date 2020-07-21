@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -14,12 +15,20 @@ public class PlayerHealth : MonoBehaviour
 
     GameObject animenemy;
 
+
+    Image healthImage;
+
     // Start is called before the first frame update
     void Awake()
     {
         anim = GetComponent<Animator>();
         animenemy = GameObject.FindGameObjectWithTag("Enemy");
         otheranim = animenemy.GetComponent<Animator>();
+
+
+        healthImage = GameObject.Find("Health Icon").GetComponent<Image>();
+       
+
     }
 
 
@@ -54,6 +63,8 @@ public class PlayerHealth : MonoBehaviour
 
             print("Current Player's Health : " + health);
 
+            healthImage.fillAmount = health / 100f;
+
             if(health <= 0)
             {
                 //otheranim.SetBool("Walk", true);
@@ -69,6 +80,21 @@ public class PlayerHealth : MonoBehaviour
 
             }
         }
+    }
+
+
+    public void HealPlayer(float healthAmount)
+    {
+        health += healthAmount;
+
+        if(health > 100)
+        {
+            health = 100f;
+            print("YOU CANNOT INCRESE YOUR LIFE");
+        }
+
+        healthImage.fillAmount = health / 100f;
+
     }
 
 

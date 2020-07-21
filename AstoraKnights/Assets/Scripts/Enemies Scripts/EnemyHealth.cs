@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -9,9 +10,24 @@ public class EnemyHealth : MonoBehaviour
     private float enemyHealth = 100f;
 
 
+    Image healthImage;
+
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
+
+        if(tag == "Boss")
+        {
+            healthImage = GameObject.Find("Health Foregroung Boss").GetComponent<Image>();
+        }
+        else
+        {
+            healthImage = GameObject.Find("Health Foreground Enemy").GetComponent<Image>();
+        }
+
+
+
     }
 
 
@@ -19,6 +35,8 @@ public class EnemyHealth : MonoBehaviour
     {
         enemyHealth -= damage;
 
+
+        healthImage.fillAmount = enemyHealth / 100f;
 
 
         print("Curemt enemy health: " + enemyHealth);

@@ -13,6 +13,7 @@ public class EnemyControllerAW : MonoBehaviour
 
     Transform playerTarget;
     NavMeshAgent navMesh;
+    GameObject pl;
 
 
     float walkDistance = 8f;
@@ -32,6 +33,7 @@ public class EnemyControllerAW : MonoBehaviour
         anim = GetComponent<Animator>();
         playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
         navMesh = GetComponent<NavMeshAgent>();
+        pl = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -49,7 +51,7 @@ public class EnemyControllerAW : MonoBehaviour
         {
             float distanceBetweenEnemyandPlayer = Vector3.Distance(transform.position, playerTarget.position);
 
-            if (distanceBetweenEnemyandPlayer > walkDistance)
+            if (distanceBetweenEnemyandPlayer > walkDistance || pl == null)
             {
                 if (navMesh.remainingDistance <= 0.5f)
                 {
